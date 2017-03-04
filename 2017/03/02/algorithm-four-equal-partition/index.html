@@ -9,21 +9,18 @@
   <title>算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试 | Homepage of Vector Liu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="题目描述给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。
-可能解法（python版）···def fourPartition(arr):    first, second, third = 1, len(arr)/2, len(arr) - 2    sum1 = sum2 = sum3 = sum4 = 0
-# req">
+可能解法（python版）123456789101112131415161718192021222324252627282930313233343536373839404142def fourPartition(arr):    first, second, th">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试">
-<meta property="og:url" content="http://vectorliu.com/2017/03/04/algorithm-four-equal-partition/index.html">
+<meta property="og:url" content="http://vectorliu.com/2017/03/02/algorithm-four-equal-partition/index.html">
 <meta property="og:site_name" content="Homepage of Vector Liu">
 <meta property="og:description" content="题目描述给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。
-可能解法（python版）···def fourPartition(arr):    first, second, third = 1, len(arr)/2, len(arr) - 2    sum1 = sum2 = sum3 = sum4 = 0
-# req">
-<meta property="og:updated_time" content="2017-03-04T12:18:19.000Z">
+可能解法（python版）123456789101112131415161718192021222324252627282930313233343536373839404142def fourPartition(arr):    first, second, th">
+<meta property="og:updated_time" content="2017-03-04T12:21:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试">
 <meta name="twitter:description" content="题目描述给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。
-可能解法（python版）···def fourPartition(arr):    first, second, third = 1, len(arr)/2, len(arr) - 2    sum1 = sum2 = sum3 = sum4 = 0
-# req">
+可能解法（python版）123456789101112131415161718192021222324252627282930313233343536373839404142def fourPartition(arr):    first, second, th">
   
     <link rel="alternative" href="/atom.xml" title="Homepage of Vector Liu" type="application/atom+xml">
   
@@ -171,8 +168,8 @@
   
 
         
-        <a href="/2017/03/04/algorithm-four-equal-partition/" class="archive-article-date">
-  	<time datetime="2017-03-04T12:13:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-04</time>
+        <a href="/2017/03/02/algorithm-four-equal-partition/" class="archive-article-date">
+  	<time datetime="2017-03-02T12:13:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-02</time>
 </a>
         
       </header>
@@ -180,47 +177,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。</p>
-<h1 id="可能解法（python版）"><a href="#可能解法（python版）" class="headerlink" title="可能解法（python版）"></a>可能解法（python版）</h1><p>···<br>def fourPartition(arr):<br>    first, second, third = 1, len(arr)/2, len(arr) - 2<br>    sum1 = sum2 = sum3 = sum4 = 0</p>
-<pre><code># requires only one sweep
-sum1 += sum(arr[0:first])
-sum2 += sum(arr[(first + 1):second])
-sum3 += sum(arr[(second + 1):third])
-sum4 += sum(arr[third + 1:])
-
-while(first &lt; second - 1) and (second &lt; third - 1):
-    #sum1 and sum4, from small to large, until equal
-    if sum1 &lt; sum4:
-        sum1 += arr[first]
-        sum2 -= arr[first + 1]
-        first += 1
-    elif sum1 &gt; sum4:
-        sum4 += arr[third]
-        sum3 -= arr[third - 1]
-        third -= 1
-        #sum1 == sum4
-    else:
-        if sum2 &lt; sum3:
-            sum2 += arr[second]
-            sum3 -= arr[second + 1]
-            second += 1
-        elif sum2 &gt; sum3:
-            sum2 -= arr[second - 1]
-            sum3 += arr[second]
-            second -= 1
-            #sum2 == sum3
-        else:
-            if sum1 &lt; sum2:
-                sum1 += arr[first]
-                sum2 -= arr[first + 1]
-                first += 1
-            elif sum1 &gt; sum2:
-                return False
-            #sum1 == sum2
-            else:
-                return True
-
-return False
-</code></pre><p>···</p>
+<h1 id="可能解法（python版）"><a href="#可能解法（python版）" class="headerlink" title="可能解法（python版）"></a>可能解法（python版）</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fourPartition</span><span class="params">(arr)</span>:</span></div><div class="line">    first, second, third = <span class="number">1</span>, len(arr)/<span class="number">2</span>, len(arr) - <span class="number">2</span></div><div class="line">    sum1 = sum2 = sum3 = sum4 = <span class="number">0</span></div><div class="line">    <span class="comment"># requires only one sweep</span></div><div class="line">    sum1 += sum(arr[<span class="number">0</span>:first])</div><div class="line">    sum2 += sum(arr[(first + <span class="number">1</span>):second])</div><div class="line">    sum3 += sum(arr[(second + <span class="number">1</span>):third])</div><div class="line">    sum4 += sum(arr[third + <span class="number">1</span>:])</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(first &lt; second - <span class="number">1</span>) <span class="keyword">and</span> (second &lt; third - <span class="number">1</span>):</div><div class="line">    	<span class="comment">#sum1 and sum4, from small to large, until equal</span></div><div class="line">    	<span class="keyword">if</span> sum1 &lt; sum4:</div><div class="line">    	    sum1 += arr[first]</div><div class="line">    	    sum2 -= arr[first + <span class="number">1</span>]</div><div class="line">    	    first += <span class="number">1</span></div><div class="line">    	<span class="keyword">elif</span> sum1 &gt; sum4:</div><div class="line">    	    sum4 += arr[third]</div><div class="line">    	    sum3 -= arr[third - <span class="number">1</span>]</div><div class="line">    	    third -= <span class="number">1</span></div><div class="line">    	    <span class="comment">#sum1 == sum4</span></div><div class="line">    	<span class="keyword">else</span>:</div><div class="line">    	    <span class="keyword">if</span> sum2 &lt; sum3:</div><div class="line">    	        sum2 += arr[second]</div><div class="line">    	        sum3 -= arr[second + <span class="number">1</span>]</div><div class="line">    	        second += <span class="number">1</span></div><div class="line">    	    <span class="keyword">elif</span> sum2 &gt; sum3:</div><div class="line">    	        sum2 -= arr[second - <span class="number">1</span>]</div><div class="line">    	        sum3 += arr[second]</div><div class="line">    	        second -= <span class="number">1</span></div><div class="line">    	        <span class="comment">#sum2 == sum3</span></div><div class="line">    	    <span class="keyword">else</span>:</div><div class="line">    	        <span class="keyword">if</span> sum1 &lt; sum2:</div><div class="line">    	            sum1 += arr[first]</div><div class="line">    	            sum2 -= arr[first + <span class="number">1</span>]</div><div class="line">    	            first += <span class="number">1</span></div><div class="line">    	        <span class="keyword">elif</span> sum1 &gt; sum2:</div><div class="line">    	            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    	        <span class="comment">#sum1 == sum2</span></div><div class="line">    	        <span class="keyword">else</span>:</div><div class="line">    	            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">False</span></div></pre></td></tr></table></figure>
 <h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><p>算法时间复杂度为N，空间复杂度也为N。</p>
 
       
@@ -312,7 +269,7 @@ return False
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://vectorliu.com/2017/03/04/algorithm-four-equal-partition/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://vectorliu.com/2017/03/02/algorithm-four-equal-partition/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -326,11 +283,15 @@ return False
   
 <nav id="article-nav">
   
-  
-    <a href="/2017/03/04/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
+    <a href="/2017/03/04/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
     </a>
+  
   
 </nav>
 
