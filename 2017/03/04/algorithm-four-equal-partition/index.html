@@ -6,14 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://vectorliu.com">
-  <title>Archives | Homepage of Vector Liu</title>
+  <title>算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试 | Homepage of Vector Liu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Homepage of Vector Liu">
-<meta property="og:url" content="http://vectorliu.com/archives/index.html">
+  <meta name="description" content="题目描述给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。
+可能解法（python版）···def fourPartition(arr):    first, second, third = 1, len(arr)/2, len(arr) - 2    sum1 = sum2 = sum3 = sum4 = 0
+# req">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试">
+<meta property="og:url" content="http://vectorliu.com/2017/03/04/algorithm-four-equal-partition/index.html">
 <meta property="og:site_name" content="Homepage of Vector Liu">
+<meta property="og:description" content="题目描述给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。
+可能解法（python版）···def fourPartition(arr):    first, second, third = 1, len(arr)/2, len(arr) - 2    sum1 = sum2 = sum3 = sum4 = 0
+# req">
+<meta property="og:updated_time" content="2017-03-04T12:18:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Homepage of Vector Liu">
+<meta name="twitter:title" content="算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试">
+<meta name="twitter:description" content="题目描述给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。
+可能解法（python版）···def fourPartition(arr):    first, second, third = 1, len(arr)/2, len(arr) - 2    sum1 = sum2 = sum3 = sum4 = 0
+# req">
   
     <link rel="alternative" href="/atom.xml" title="Homepage of Vector Liu" type="application/atom+xml">
   
@@ -149,36 +159,98 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-algorithm-four-equal-partition" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/04/algorithm-four-equal-partition/" class="archive-article-date">
-  	<time datetime="2017-03-04T12:13:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-04</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/04/algorithm-four-equal-partition/">算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试</a>
+    <h1 class="article-title" itemprop="name">
+      算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/03/04/algorithm-four-equal-partition/" class="archive-article-date">
+  	<time datetime="2017-03-04T12:13:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。</p>
+<h1 id="可能解法（python版）"><a href="#可能解法（python版）" class="headerlink" title="可能解法（python版）"></a>可能解法（python版）</h1><p>···<br>def fourPartition(arr):<br>    first, second, third = 1, len(arr)/2, len(arr) - 2<br>    sum1 = sum2 = sum3 = sum4 = 0</p>
+<pre><code># requires only one sweep
+sum1 += sum(arr[0:first])
+sum2 += sum(arr[(first + 1):second])
+sum3 += sum(arr[(second + 1):third])
+sum4 += sum(arr[third + 1:])
+
+while(first &lt; second - 1) and (second &lt; third - 1):
+    #sum1 and sum4, from small to large, until equal
+    if sum1 &lt; sum4:
+        sum1 += arr[first]
+        sum2 -= arr[first + 1]
+        first += 1
+    elif sum1 &gt; sum4:
+        sum4 += arr[third]
+        sum3 -= arr[third - 1]
+        third -= 1
+        #sum1 == sum4
+    else:
+        if sum2 &lt; sum3:
+            sum2 += arr[second]
+            sum3 -= arr[second + 1]
+            second += 1
+        elif sum2 &gt; sum3:
+            sum2 -= arr[second - 1]
+            sum3 += arr[second]
+            second -= 1
+            #sum2 == sum3
+        else:
+            if sum1 &lt; sum2:
+                sum1 += arr[first]
+                sum2 -= arr[first + 1]
+                first += 1
+            elif sum1 &gt; sum2:
+                return False
+            #sum1 == sum2
+            else:
+                return True
+
+return False
+</code></pre><p>···</p>
+<h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><p>算法时间复杂度为N，空间复杂度也为N。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -190,46 +262,88 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://vectorliu.com/2017/03/04/algorithm-four-equal-partition/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/04/hello-world/" class="archive-article-date">
-  	<time datetime="2017-03-04T11:25:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-04</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/04/hello-world/">Hello World</a>
-    </h1>
+  
+    <a href="/2017/03/04/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -252,8 +366,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
