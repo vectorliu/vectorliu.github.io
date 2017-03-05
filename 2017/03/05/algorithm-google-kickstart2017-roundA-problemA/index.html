@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="题目描述给定一维数组arr，其下标范围为$[0, n-1]$，将数组分为两个部分$[0, k]$和$[k+1, n-1]$，两部分都非空。求前后两部分最大值的差的绝对值的最大值。">
+<meta name="description" content="题目描述给定一个r行c列的正方形组成的矩形，该形状内存在多少个正方形。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法—分块最大值之差">
-<meta property="og:url" content="http://vectorliu.com/2017/03/05/algorithm-maximum-absolute-difference/index.html">
+<meta property="og:title" content="算法-数方块-Google kickstart2017 Round A - Problem A">
+<meta property="og:url" content="http://vectorliu.com/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/index.html">
 <meta property="og:site_name" content="Homepage of Vector Liu">
-<meta property="og:description" content="题目描述给定一维数组arr，其下标范围为$[0, n-1]$，将数组分为两个部分$[0, k]$和$[k+1, n-1]$，两部分都非空。求前后两部分最大值的差的绝对值的最大值。">
-<meta property="og:updated_time" content="2017-03-05T03:23:48.000Z">
+<meta property="og:description" content="题目描述给定一个r行c列的正方形组成的矩形，该形状内存在多少个正方形。">
+<meta property="og:updated_time" content="2017-03-05T09:44:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算法—分块最大值之差">
-<meta name="twitter:description" content="题目描述给定一维数组arr，其下标范围为$[0, n-1]$，将数组分为两个部分$[0, k]$和$[k+1, n-1]$，两部分都非空。求前后两部分最大值的差的绝对值的最大值。">
+<meta name="twitter:title" content="算法-数方块-Google kickstart2017 Round A - Problem A">
+<meta name="twitter:description" content="题目描述给定一个r行c列的正方形组成的矩形，该形状内存在多少个正方形。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>算法—分块最大值之差 | Homepage of Vector Liu</title>
+<title>算法-数方块-Google kickstart2017 Round A - Problem A | Homepage of Vector Liu</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -267,11 +267,11 @@
     </div>
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
-      <div class="body-wrap"><article id="post-algorithm-maximum-absolute-difference" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-algorithm-google-kickstart2017-roundA-problemA" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/03/05/algorithm-maximum-absolute-difference/" class="article-date">
-      <time datetime="2017-03-05T02:44:30.000Z" itemprop="datePublished">2017-03-05</time>
+      <a href="/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/" class="article-date">
+      <time datetime="2017-03-05T08:00:36.000Z" itemprop="datePublished">2017-03-05</time>
 </a>
 
 
@@ -286,7 +286,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      算法—分块最大值之差
+      算法-数方块-Google kickstart2017 Round A - Problem A
     </h1>
   
 
@@ -301,7 +301,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -311,14 +311,33 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一维数组arr，其下标范围为$[0, n-1]$，将数组分为两个部分$[0, k]$和$[k+1, n-1]$，两部分都非空。求前后两部分最大值的差的绝对值的最大值。<br><a id="more"></a></p>
-<h2 id="可能解法（python版）"><a href="#可能解法（python版）" class="headerlink" title="可能解法（python版）"></a>可能解法（python版）</h2><p>算法思想：首先，无论怎么分割，数组的全局最大值必然也是其中一部分的最大值。从数组头部开始看：</p>
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个r行c列的正方形组成的矩形，该形状内存在多少个正方形。</p>
+<a id="more"></a> 
+<p>原题描述如下：</p>
+<blockquote>
+<p>Mr. Panda has recently fallen in love with a new game called Square Off, in which players compete to find as many different squares as possible on an evenly spaced rectangular grid of dots. To find a square, a player must identify four dots that form the vertices of a square. Each side of the square must have the same length, of course, but it does not matter what that length is, and the square does not necessarily need to be aligned with the axes of the grid. The player earns one point for every different square found in this way. Two squares are different if and only if their sets of four dots are different.</p>
+<p>Mr. Panda has just been given a grid with R rows and C columns of dots. How many different squares can he find in this grid? Since the number might be very large, please output the answer modulo $10^9 + 7 (1000000007)$.</p>
+<p>Input</p>
+<p>The first line of the input gives the number of test cases, T. T lines follow. Each line has two integers R and C: the number of dots in each row and column of the grid, respectively.<br>Output</p>
+<p>For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the number of different squares can be found in the grid.<br>Limits</p>
+<p>1 ≤ T ≤ 100.<br>Small dataset</p>
+<p>2 ≤ R ≤ 1000.<br>2 ≤ C ≤ 1000.<br>Large dataset</p>
+<p>2 ≤ R ≤ 109.<br>2 ≤ C ≤ 109.<br>Sample</p>
+<p>Input </p>
+<p>Output </p>
+<p>4<br>2 4<br>3 4<br>4 4<br>1000 500</p>
+<p>Case #1: 3<br>Case #2: 10<br>Case #3: 20<br>Case #4: 624937395</p>
+</blockquote>
+<h2 id="可能解法"><a href="#可能解法" class="headerlink" title="可能解法"></a>可能解法</h2><p>观察图片，我们可以发现：</p>
 <ul>
-<li>如果$arr[0] \lt arr[1]$，则为保持左边的最大值最小，数组必须从从第一个元素后分段；</li>
-<li>如果$arr[0] \ge arr[1]$，则新加入的$arr[1]$对左边的最大值无影响，直到再次满足上一个条件。<br>从尾部开始也可以得到类似的结论。因此，总结最大值之差的最大值满足如下表达式：<br>$$\max\lbrace arr \rbrace - \min \lbrace arr[0], arr[n - 1] \rbrace.$$</li>
+<li>边长为1的正方形有$(r - 1)(c - 1)$个；</li>
+<li>边长为2的正方形有$(r - 2)(c - 2)$个，此外每个边长为2的正方形内部有一个斜的边长为$\sqrt{2}$正方形，因此总数为$2(r - 2)(c - 2)$；</li>
+<li>边长为3的正方形有$(r - 3)(c - 3)$个，此外每个边长为3的正方形内部有一个斜的边长为$\sqrt{5}$正方形，因此总数为$3(r - 3)(c - 3)$；</li>
+<li>边长为n的正方形及其内部的正方形共有$n(r - n)(c - n)$个。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxDiff</span><span class="params">(arr)</span>:</span></div><div class="line">    n = len(arr)</div><div class="line">    <span class="keyword">if</span> len(arr) &lt; <span class="number">2</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">    maxVal = arr[<span class="number">0</span>]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(arr)):</div><div class="line">        maxVal = arr[i] <span class="keyword">if</span> maxVal &lt; arr[i] <span class="keyword">else</span> maxVal</div><div class="line">    <span class="keyword">return</span> maxVal - min(arr[<span class="number">0</span>], arr[n - <span class="number">1</span>])</div></pre></td></tr></table></figure>
-<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>算法时间复杂度为$\mathcal{O}(n)$，空间复杂度也为$\mathcal{O}(N)$。</p>
+<p>同时，最大的边长n满足：$n = \min \lbrace r - 1, c - 1 \rbrace$。据此已经可以通过循环求和得到结果，但是针对大样本时间会来不及。因此我们考虑自行化简如下：<br>$$<br>\begin{align}\\<br>&amp;\sum\limits_{i=1}^{n}{i(r - i)(c - i)}\\<br>&amp;= rc \cdot \sum\limits_{i=1}^{n}{i} - (r + c) \cdot \sum\limits_{i=1}^{n}{i^2} + \sum\limits_{i=1}^{n}{i^3}\\<br>&amp;= \frac{n(n+1)}{2} \cdot rc - \frac{n(n+1)(2n+1)}{6} \cdot (r+c) + \frac{n^2(n+1)^2}{4}\\<br>\end{align}<br>$$<br>从而可以很方便的通过一次计算得到结果。最后，为了避免大数运算，需要在计算的过程中进行取模。要注意的是，由于中间有减法存在，需要检查最后的结果是否合法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fstream&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">    ifstream fin;</div><div class="line">    ofstream fout;</div><div class="line">    fin.open(<span class="string">"../A-large-practice.in"</span>);</div><div class="line">    fout.open(<span class="string">"../A-large.out"</span>);</div><div class="line">    <span class="keyword">int</span> <span class="keyword">module</span> = <span class="number">1000000007</span>;</div><div class="line">    <span class="keyword">int</span> T;</div><div class="line">    fin &gt;&gt; T;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> Case = <span class="number">1</span>; Case &lt;= T; Case++) &#123;</div><div class="line">        <span class="keyword">long</span> <span class="keyword">long</span> r, c;</div><div class="line">        fin &gt;&gt; r &gt;&gt; c;</div><div class="line"></div><div class="line">        <span class="keyword">long</span> m = min(r - <span class="number">1</span>, c - <span class="number">1</span>);</div><div class="line">        <span class="keyword">long</span> sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">long</span> temp1 = r * c;</div><div class="line">        <span class="keyword">long</span> temp2 = r + c;</div><div class="line">        sum += ((m + <span class="number">1</span>)*m/<span class="number">2</span> * temp1)%<span class="keyword">module</span>;</div><div class="line">        sum += -((<span class="keyword">int</span>)(m + <span class="number">1</span>)*m*(<span class="number">2</span>*m + <span class="number">1</span>)/<span class="number">6</span> *temp2)%<span class="keyword">module</span>;</div><div class="line">        sum += ((m + <span class="number">1</span>)*(m + <span class="number">1</span>)*m*m/<span class="number">4</span>)%<span class="keyword">module</span>;</div><div class="line">        sum = sum%<span class="keyword">module</span>;</div><div class="line">        <span class="keyword">if</span>(sum &lt; <span class="number">0</span>)&#123;</div><div class="line">            sum += <span class="keyword">module</span>;</div><div class="line">        &#125;</div><div class="line">        fout &lt;&lt; <span class="string">"Case #"</span> &lt;&lt; Case &lt;&lt; <span class="string">": "</span> &lt;&lt; sum &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">    fin.close();</div><div class="line">    fout.close();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>算法时间复杂度为$\mathcal{O}(T)$，空间复杂度也为$\mathcal{O}(T)$。</p>
 
       
     </div>
@@ -327,13 +346,13 @@
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2017/03/05/algorithm-maximum-absolute-difference/">算法—分块最大值之差</a></p>
+        <p><span>Title:</span><a href="/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/">算法-数方块-Google kickstart2017 Round A - Problem A</a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">Vector Liu</a></p>
-        <p><span>Created:</span>2017-03-05, 10:44:30</p>
-        <p><span>Updated:</span>2017-03-05, 11:23:48</p>
+        <p><span>Created:</span>2017-03-05, 16:00:36</p>
+        <p><span>Updated:</span>2017-03-05, 17:44:16</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2017/03/05/algorithm-maximum-absolute-difference/" title="算法—分块最大值之差">http://vectorliu.com/2017/03/05/algorithm-maximum-absolute-difference/</a>
-            <span class="copy-path" data-clipboard-text="From http://vectorliu.com/2017/03/05/algorithm-maximum-absolute-difference/　　By Vector Liu" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>Full URL:</span><a class="post-url" href="/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/" title="算法-数方块-Google kickstart2017 Round A - Problem A">http://vectorliu.com/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/</a>
+            <span class="copy-path" data-clipboard-text="From http://vectorliu.com/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/　　By Vector Liu" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -345,16 +364,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/">
-                    算法-数方块-Google kickstart2017 Round A - Problem A
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/03/02/algorithm-four-equal-partition/">
-                    算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试
+                <a href="/2017/03/05/algorithm-maximum-absolute-difference/">
+                    算法—分块最大值之差
                 </a>
             </div>
         
@@ -366,7 +379,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可能解法（python版）"><span class="toc-number">2.</span> <span class="toc-text">可能解法（python版）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复杂度分析"><span class="toc-number">3.</span> <span class="toc-text">复杂度分析</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可能解法"><span class="toc-number">2.</span> <span class="toc-text">可能解法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复杂度分析"><span class="toc-number">3.</span> <span class="toc-text">复杂度分析</span></a></li></ol>
         
     </div>
     <style>
@@ -402,7 +415,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"算法—分块最大值之差　| Homepage of Vector Liu　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"算法-数方块-Google kickstart2017 Round A - Problem A　| Homepage of Vector Liu　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -418,7 +431,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2017/03/05/algorithm-maximum-absolute-difference/" data-title="算法—分块最大值之差" data-url="http://vectorliu.com/2017/03/05/algorithm-maximum-absolute-difference/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/03/05/algorithm-google-kickstart2017-roundA-problemA/" data-title="算法-数方块-Google kickstart2017 Round A - Problem A" data-url="http://vectorliu.com/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/"></div>
     <script>
         var duoshuoQuery = {short_name:"vectorliu"};
         var loadComment = function(){
@@ -441,15 +454,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/03/05/algorithm-google-kickstart2017-roundA-problemA/" title="Pre: 算法-数方块-Google kickstart2017 Round A - Problem A">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="Back to Homepage"><i class="fa fa-home"></i></a>
         
 
         <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/03/02/algorithm-four-equal-partition/" title="Next: 算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试">
+            <a href="/2017/03/05/algorithm-maximum-absolute-difference/" title="Next: 算法—分块最大值之差">
                 <i class="fa fa-angle-right"></i>
             </a>
         
