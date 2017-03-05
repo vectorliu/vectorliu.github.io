@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[算法—分块最大值之差]]></title>
+      <url>http://vectorliu.com/2017/03/05/algorithm-maximum-absolute-difference/</url>
+      <content type="html"><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一维数组arr，其下标范围为$[0, n-1]$，将数组分为两个部分$[0, k]$和$[k+1, n-1]$，两部分都非空。求前后两部分最大值的差的绝对值的最大值。<br><a id="more"></a></p>
+<h2 id="可能解法（python版）"><a href="#可能解法（python版）" class="headerlink" title="可能解法（python版）"></a>可能解法（python版）</h2><p>算法思想：首先，无论怎么分割，数组的全局最大值必然也是其中一部分的最大值。从数组头部开始看：</p>
+<ul>
+<li>如果$arr[0] \lt arr[1]$，则为保持左边的最大值最小，数组必须从从第一个元素后分段；</li>
+<li>如果$arr[0] \ge arr[1]$，则新加入的$arr[1]$对左边的最大值无影响，直到再次满足上一个条件。<br>从尾部开始也可以得到类似的结论。因此，总结最大值之差的最大值满足如下表达式：<br>$$\max\lbrace arr \rbrace - \min \lbrace arr[0], arr[n - 1] \rbrace.$$</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxDiff</span><span class="params">(arr)</span>:</span></div><div class="line">    n = len(arr)</div><div class="line">    <span class="keyword">if</span> len(arr) &lt; <span class="number">2</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">    maxVal = arr[<span class="number">0</span>]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(arr)):</div><div class="line">        maxVal = arr[i] <span class="keyword">if</span> maxVal &lt; arr[i] <span class="keyword">else</span> maxVal</div><div class="line">    <span class="keyword">return</span> maxVal - min(arr[<span class="number">0</span>], arr[n - <span class="number">1</span>])</div></pre></td></tr></table></figure>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>算法时间复杂度为$\mathcal{O}(n)$，空间复杂度也为$\mathcal{O}(N)$。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 编程 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[算法-四等分数组-阿里2017年研发工程师JAVA（实习生）编程笔试]]></title>
+      <url>http://vectorliu.com/2017/03/02/algorithm-four-equal-partition/</url>
+      <content type="html"><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一维数组arr，其元素都为正数，将其分为4个组，4个组的和分别相等，并且不包含分割位置的元素。判断给定数组是否符合该条件。<br><a id="more"></a> </p>
+<h2 id="可能解法（python版）"><a href="#可能解法（python版）" class="headerlink" title="可能解法（python版）"></a>可能解法（python版）</h2><p>算法思想：将数组分为4个部分，共存在3个分界点。初始化3个分界点的合理位置，使得每一段都非空，同时初始化4个部分的和。从左边和右边开始扫描调整分界点位置，直到第1部分和第4部分相等。算法接着调整第2部分和第3部分，使得它们的部分和也相等。至此，可以比较第1段和第2段的和，如果满足第1段大于第2段，则不再有调整的可能，否则接着调整。算法利用了两个重要特征：</p>
+<ul>
+<li>数组中所有元素都是正数，因此加上一个数不会变小；</li>
+<li>第1段和第4段的和都是从小往大递增的。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fourPartition</span><span class="params">(arr)</span>:</span></div><div class="line">    first, second, third = <span class="number">1</span>, len(arr)/<span class="number">2</span>, len(arr) - <span class="number">2</span></div><div class="line">    sum1 = sum2 = sum3 = sum4 = <span class="number">0</span></div><div class="line">    <span class="comment"># requires only one sweep</span></div><div class="line">    sum1 += sum(arr[<span class="number">0</span>:first])</div><div class="line">    sum2 += sum(arr[(first + <span class="number">1</span>):second])</div><div class="line">    sum3 += sum(arr[(second + <span class="number">1</span>):third])</div><div class="line">    sum4 += sum(arr[third + <span class="number">1</span>:])</div><div class="line">    <span class="keyword">if</span> sum1 * sum2 * sum3 * sum4 == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="keyword">while</span>(first &lt; second - <span class="number">1</span>) <span class="keyword">and</span> (second &lt; third - <span class="number">1</span>):</div><div class="line">    	<span class="comment">#sum1 and sum4, from small to large, until equal</span></div><div class="line">    	<span class="keyword">if</span> sum1 &lt; sum4:</div><div class="line">    	    sum1 += arr[first]</div><div class="line">    	    sum2 -= arr[first + <span class="number">1</span>]</div><div class="line">    	    first += <span class="number">1</span></div><div class="line">    	<span class="keyword">elif</span> sum1 &gt; sum4:</div><div class="line">    	    sum4 += arr[third]</div><div class="line">    	    sum3 -= arr[third - <span class="number">1</span>]</div><div class="line">    	    third -= <span class="number">1</span></div><div class="line">    	    <span class="comment">#sum1 == sum4</span></div><div class="line">    	<span class="keyword">else</span>:</div><div class="line">    	    <span class="keyword">if</span> sum2 &lt; sum3:</div><div class="line">    	        sum2 += arr[second]</div><div class="line">    	        sum3 -= arr[second + <span class="number">1</span>]</div><div class="line">    	        second += <span class="number">1</span></div><div class="line">    	    <span class="keyword">elif</span> sum2 &gt; sum3:</div><div class="line">    	        sum2 -= arr[second - <span class="number">1</span>]</div><div class="line">    	        sum3 += arr[second]</div><div class="line">    	        second -= <span class="number">1</span></div><div class="line">    	        <span class="comment">#sum2 == sum3</span></div><div class="line">    	    <span class="keyword">else</span>:</div><div class="line">    	        <span class="keyword">if</span> sum1 &lt; sum2:</div><div class="line">    	            sum1 += arr[first]</div><div class="line">    	            sum2 -= arr[first + <span class="number">1</span>]</div><div class="line">    	            first += <span class="number">1</span></div><div class="line">    	        <span class="keyword">elif</span> sum1 &gt; sum2:</div><div class="line">    	            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    	        <span class="comment">#sum1 == sum2</span></div><div class="line">    	        <span class="keyword">else</span>:</div><div class="line">    	            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">False</span></div></pre></td></tr></table></figure>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>算法时间复杂度为$\mathcal{O}(n)$，空间复杂度也为$\mathcal{O}(N)$。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 编程 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>http://vectorliu.com/2017/03/02/hello-world/</url>
+      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a> </p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+  
+  
+</search>
