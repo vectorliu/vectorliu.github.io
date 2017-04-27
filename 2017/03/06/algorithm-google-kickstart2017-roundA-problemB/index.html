@@ -422,24 +422,27 @@
 
 
     
-      <div class="duoshuo" id="comments">
-    <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2017/03/06/algorithm-google-kickstart2017-roundA-problemB/" data-title="算法-字符串模糊匹配-Google kickstart2017 Round A - Problem B" data-url="http://vectorliu.com/2017/03/06/algorithm-google-kickstart2017-roundA-problemB/"></div>
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
     <script>
-        var duoshuoQuery = {short_name:"vectorliu"};
+        var disqus_config = function(){
+            this.page.url = 'http://vectorliu.com/2017/03/06/algorithm-google-kickstart2017-roundA-problemB/';
+            this.page.identifier = '2017/03/06/algorithm-google-kickstart2017-roundA-problemB/';
+        };
         var loadComment = function(){
             var d = document, s = d.createElement('script');
-            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            s.async = true; s.charset = 'UTF-8';
+            s.src = '//vectorliu.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         }
-
-        
     </script>
     
     <script> loadComment(); </script>
 
-</div>
+</section>
+
+
     
 
 
