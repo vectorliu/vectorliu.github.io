@@ -46,48 +46,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[一阶优化方法]]></title>
-      <url>http://vectorliu.com/2017/08/11/algorithm-newton-method/</url>
-      <content type="html"><![CDATA[<h2 id="最优化问题描述"><a href="#最优化问题描述" class="headerlink" title="最优化问题描述"></a>最优化问题描述</h2><p>最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。</p>
-<p>从数值迭代算法的角度考虑，不妨记当前时刻的估计为$\mathbf{x}_k$，下一时刻的估计记为$\mathbf{x}_{k+1}$，优化算法的一般形式记为：<br>$$\mathbf{x}_{k+1} = \mathbf{x}_k + \alpha \Delta \mathbf{x}$$<br>其中$\alpha &gt; 0$是步长，$\Delta \mathbf{x}$为迭代方向，各种优化方法的区别在于怎么选定迭代方向以及步长。根据原理不同，可将其总结为两大类：即一阶算法和二阶算法。考虑到篇幅问题，本文主要介绍各种一阶梯度下降算法，二阶算法则放在另一篇博文中介绍。<br><a id="more"></a></p>
-<p>根据泰勒公式，可以将$f(\mathbf{x}_{k+1})$在点$\mathbf{x}_k$处展开为：<br>$$<br>\begin{equation}<br>f(\mathbf{x}_{k+1}) = f(\mathbf{x}_k) + \alpha \mathbf{g}_k^T \Delta\mathbf{x} + \frac{\alpha^2}{2} \Delta \mathbf{x}^T \mathbf{H}_k \Delta \mathbf{x} + \mathcal{o}(||\Delta \mathbf{x}||^2)<br>\end{equation} \tag{1}<br>$$<br>上式中，$\mathbf{g}_k = \frac{\partial f}{\partial \mathbf{x}}(\mathbf{x}_k)$，表示一阶梯度向量，而$\mathbf{H}_k$表示海森矩阵（Hessian matrix），$\mathcal{o}(\cdot)$表示参数的高阶无穷小。</p>
-<h2 id="一阶算法"><a href="#一阶算法" class="headerlink" title="一阶算法"></a>一阶算法</h2><h3 id="梯度下降算法"><a href="#梯度下降算法" class="headerlink" title="梯度下降算法"></a>梯度下降算法</h3><p>对于任意函数，我们不妨取式$1$中右边的前两项，则可以得到：<br>$$<br>\begin{equation}<br>f(\mathbf{x}_{k+1}) \approx f(\mathbf{x}_k) + \alpha \mathbf{g}_k^T \Delta\mathbf{x}<br>\end{equation} \tag{2}<br>$$<br>由于我们的目标是最小化$f(\mathbf{x})$，因此一个显然的迭代方向选择为$\Delta \mathbf{x} = -\mathbf{g}_k$。根据向量内积，可以发现该方向是函数值下降最快的方向，据此可以得到梯度下降算法（又称最速下降法）如下：<br>        $$\mathbf{x}_{k+1} = \mathbf{x}_k - \alpha_k \mathbf{g}_k$$<br>考虑到上述推导依赖于泰勒展开近似，梯度下降算法在实际使用还需要考虑步长$\alpha$的选择。步长如果选取的过大，则可能会导致函数值变大；如果选取的过小，则可能会导致收敛很慢。实际中通常选择衰减的步长，以符合误差的衰减。或者通过line search对步长进行进一步的优化：<br>$$<br>\alpha^\ast = \underset{\alpha}{\operatorname{argmin}} {f(\mathbf{x}_k - \alpha \mathbf{g}_k)}<br>$$<br>梯度下降算法适用于任何可微分的函数，并且可以求得该类函数的局部极小值。当函数不是处处可微时，通过次梯度下降算法（subgradient descent method）来求解，典型的该类函数是绝对值函数，次梯度下降算法的分析与梯度下降类似。</p>
-<p>在机器学习领域，梯度下降算法的经典实现是随机梯度下降算法（Stochastic Gradient Descent，SGD），SGD通过随机采样一个或者一批（batch）样本，并计算其损失函数（全局损失函数可以拆分为所有样本损失函数之和）对应的梯度，以更新分类／回归模型的参数。在更大规模数据集中，SGD往往比经典的梯度下降收敛更快。</p>
-<h3 id="共轭梯度下降算法"><a href="#共轭梯度下降算法" class="headerlink" title="共轭梯度下降算法"></a>共轭梯度下降算法</h3><p>梯度方向虽然是函数值下降最快的方向，但是在实际使用中会存在以下问题：1）在最优解附近收敛变慢；2）如果函数存在特殊的梯度变化，会出现“之字形”走法（zigzag现象），导致收敛效率低。这类问题出现的原因在于在收敛过程中，梯度序列${\mathbf{g}_0, …, \mathbf{g}_{n-1}}$不是完全线性独立的，导致搜索的过程可能出现“undo”和“redo”现象，即单一方向的搜索没有走到尽头。假设仍然采用一阶算法的基本形式，在如下更新率下：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_{k} + \alpha_k \mathbf{d}_k<br>$$<br>为确保单一方向搜索到了尽头，则需要满足如下约束条件：<br>$$<br>\mathbf{g}_{k+1}^T \mathbf{d}_k = 0 \tag{3}<br>$$<br>根据上式可以利用line search最小化$f(\mathbf{x}_{k} + \alpha \mathbf{d}_k)$得到最优的步长，本质上该步长代表了误差$\mathbf{e}_k = \mathbf{x}^\ast - \mathbf{x}_k$在当前方向$\mathbf{d}_k$上的投影长度。如果可以构建一组线性独立的基${\mathbf{d}_0, …, \mathbf{d}_{n-1}}$，将误差$\mathbf{e}_k$投影到每个方向上，则可以避免“undo”和“redo”现象。以上分析表述了共轭梯度下降算法（Conjugate Gradient Descent，CGD）的基本思想。</p>
-<p>循一般套路，本文先针对特殊的二次规划问题利用CGD给出确定优化算法，然后将其推广到一般的函数最小化问题。考虑如下标准无约束二次规划问题：<br>$$<br>\min\limits_{\mathbf{x} \in \mathbb{R}^n}{f(\mathbf{x}) = \frac{1}{2}\mathbf{x}^T \mathbf{H} \mathbf{x} - \mathbf{b}^T \mathbf{x}}<br>$$<br>随机选定初始值$\mathbf{x}_0$，并计算当前梯度$\mathbf{g}_0 = \mathbf{H}\mathbf{x}_0 - \mathbf{b}$，令<br>$$<br>\mathbf{d}_0 = -\mathbf{g}_0<br>$$<br>可以得到$\mathbf{x}_1 = \mathbf{x}_0 + \alpha_0 \mathbf{d}_0$。根据梯度表达式和更新公式可得$\mathbf{g}_{1} = \mathbf{g}_{0} + \alpha_0 \mathbf{H} \mathbf{d}_0$<br>根据式(3)，可以计算得到：<br>$$<br>\alpha_0 = -\frac{\mathbf{g}_0^T \mathbf{d}_0}{\mathbf{d}_0^T\mathbf{H}\mathbf{d}_0} \tag{4}<br>$$<br>至此我们得到了新的梯度向量$\mathbf{g}_1$，根据<a href="https://en.wikipedia.org/wiki/Gram–Schmidt_process" target="_blank" rel="external">Gram-Schmidt正交化方法</a>的思想，我们希望迭代构造一组正交的基底，便于对误差进行分解。如果按照一般的正交化套路构造了一组基底${\mathbf{d}_0, …, \mathbf{d}_{n-1}}$，则可以得到在$\mathbf{d}_k$上误差的投影长度为：$\alpha_k = \frac{\mathbf{d}_k^T \mathbf{e}_k}{\mathbf{d}_k^T \mathbf{e}_k}$。该种构造方法下，计算每个方向上的投影长度将需要知道$\mathbf{e}_k = \mathbf{x}^\ast - \mathbf{x}_k$的信息，构成了一个先有鸡还是先有蛋的问题。幸运的是，虽然不知道$\mathbf{e}_k$但是很容易得到：<br>$$<br>\mathbf{H} \mathbf{e}_k = \mathbf{H}(\mathbf{x}^\ast - \mathbf{x}_k) = \mathbf{b} - \mathbf{H}\mathbf{x}_k = -\mathbf{g}_k<br>$$<br>上式启发我们使用一种新的“正交”基底，以使得误差可以通过当前梯度来反映。具体地，通过构造一组$H$-共轭（H-Conjugate，H矩阵对称正定）的基底，即：<br>$$<br>\mathbf{d}_i^T \mathbf{H} \mathbf{d}_j = 0, \forall i,j = 0, …, n-1, i \neq j<br>$$<br>在该组基底下，我们接着式(4)构造新的搜索方向$\mathbf{d}_1$，根据$\mathbf{d}_1^T \mathbf{H} \mathbf{d}_0 = 0$，并结合$\mathbf{d}_1 = -\mathbf{g}_1 + \beta_0 \mathbf{d}_0$，可以解出：<br>$$<br>\beta_0 = \frac{\mathbf{g}_1^T\mathbf{H}\mathbf{d}_0}{\mathbf{d}_0^T\mathbf{H}\mathbf{d}_0} = \frac{\mathbf{g}_1^T \mathbf{g}_1}{\mathbf{g}_0^T \mathbf{g}_0}<br>$$<br>上述算法迭代进行下去即可得到整个CGD算法，总结针对二次规划的CGD算法，可以发现如下事实：</p>
-<ol>
-<li>存在如下正交以及$H$-共轭关系：$$\mathbf{g}_i^T\mathbf{g}_j = 0, \mathbf{d}_i^T \mathbf{H} \mathbf{d}_j = 0, \forall i,j = 0, …, n-1, i \neq j$$</li>
-<li>对于正定二次规划问题，CGD可以在n步迭代后得到最优解，即$\mathbf{x}_n = \mathbf{x}^\ast$；</li>
-<li>与GD相比，针对二次规划的CGD算法也只需要使用一阶梯度信息，增加的计算量不大，但是大大加速了GD算法的收敛，达到了确定步数的收敛。</li>
-</ol>
-<p>考虑到对任意函数进行二阶展开（参见式（1）），可以将CGD推广到任意函数最小化问题，得到如下Fletcher-Reeves算法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">1. 随机选择初始点$\mathbf&#123;x&#125;_0$；</div><div class="line">2. 计算初始点梯度向量：$\mathbf&#123;d&#125;_0 \leftarrow -\mathbf&#123;g&#125;_0$；</div><div class="line">3. 循环$k = 0,1,...,n-1$，进行如下操作：</div><div class="line">	- 通过line search得到最小化$f(\mathbf&#123;x&#125;_k + \alpha \mathbf&#123;d&#125;_k)$的$\alpha_k$；</div><div class="line">	- $\mathbf&#123;x&#125;_&#123;k+1&#125; \leftarrow \mathbf&#123;x&#125;_k + \alpha_k \mathbf&#123;d&#125;_k$；</div><div class="line">	- $\beta_k \leftarrow \frac&#123;||\mathbf&#123;g&#125;_&#123;k+1&#125;||^2&#125;&#123;||\mathbf&#123;g&#125;_k||^2&#125;$；</div><div class="line">	- $\mathbf&#123;d&#125;_&#123;k+1&#125; \leftarrow -\mathbf&#123;g&#125;_k + \beta_k \mathbf&#123;d&#125;_k$；</div><div class="line">4. $\mathbf&#123;x&#125;_0 \leftarrow \mathbf&#123;x&#125;_n$；</div><div class="line">5. 检查终止条件，如不满足，则跳到步骤2。</div></pre></td></tr></table></figure></p>
-<p>Fletcher-Reeves算法通过嵌套实现，每一个外层循环的第一步本质上都是梯度下降算法，剩余的$n-1$步可以保证函数值不会增加，因此其收敛可以很容易通过梯度下降算法证明。CGD算法仅仅使用了一阶梯度信息，但是大大加快了收敛速度，是针对任意函数的一个通用性强的高效优化算法。</p>
-<h2 id="二阶算法"><a href="#二阶算法" class="headerlink" title="二阶算法"></a>二阶算法</h2><p>二阶算法利用二阶展开来近似任意函数，即取式（1）右边的前三项，可得：<br>$$<br>\begin{equation}<br>f(\mathbf{x}_{k+1}) \approx f(\mathbf{x}_k) + \alpha \mathbf{g}_k^T \Delta\mathbf{x} + \frac{\alpha^2}{2} \Delta\mathbf{x}^T \mathbf{H}_k\Delta\mathbf{x}<br>\end{equation} \tag{4}<br>$$</p>
-<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>将式（4）看成一个以$\alpha\Delta\mathbf{x}$为参数的函数，最小化该函数等价于求梯度为零的点，即：<br>$$<br>\mathbf{H}_k (\alpha\Delta\mathbf{x}) + \mathbf{g}_k = 0<br>$$<br>从而可以得到下一步迭代的最优增量为：$\alpha\Delta\mathbf{x} = -\mathbf{H}_k^T \mathbf{g}_k$。因此牛顿法可以总结为以下表达式：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_k - \mathbf{H}_k^T \mathbf{g}_k<br>$$<br>从上式可以看出，牛顿法无需单独计算步长$\alpha_k$，但是需要同时使用目标函数在当前点的一阶和二阶导数的信息，使得单步迭代的计算复杂度提升为$\mathcal{O}(n^2)$。进一步地，牛顿法还需要计算Hessian矩阵的逆，使得复杂度进一步提升为$\mathcal{O}(n^3)$。由于使用了二阶导数的信息，牛顿法可以很快一步找到二次规划问题的最优解。对于可以用二阶近似的函数，牛顿法也可以很快地找到最优解的近似。为了克服牛顿法需要计算Hessian矩阵逆的麻烦，出现了各种各样的拟牛顿法（Quasi-Newton method），不同的拟牛顿法的区别在于对Hessian矩阵及其逆的不同计算方法。在下面的介绍中，我们记Hessian矩阵$\mathbf{H}_k$的近似逆矩阵为$\mathbf{V}_k$。</p>
-<h3 id="拟牛顿法：DFP算法"><a href="#拟牛顿法：DFP算法" class="headerlink" title="拟牛顿法：DFP算法"></a>拟牛顿法：DFP算法</h3><p>DFP算法的全称是Davidon–Fletcher–Powell算法，是史上第一个拟牛顿法。DFP最早由Davidon于1959年提出，经由Fletcher和Powell于1963年改进完善得到。DFP的核心思想是迭代估计$\mathbf{V}_k$。对函数的梯度在当前点进行一阶展开，则有：<br>$$<br>\mathbf{H}<em>k \mathbf{\Delta \mathbf{x}} = \mathbf{g}</em>{k+1} - \mathbf{g}_k<br>$$</p>
-<h3 id="拟牛顿法：BFGS算法"><a href="#拟牛顿法：BFGS算法" class="headerlink" title="拟牛顿法：BFGS算法"></a>拟牛顿法：BFGS算法</h3><p>BFGS算法的全称是Broyden–Fletcher–Goldfarb–Shanno算法，是当前使用的主流优化算法，可以通过MATLAB的fminunc函数直接调用。</p>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ol>
-<li>Conjugate Gradient Method. <a href="http://web.cs.iastate.edu/~cs577/handouts/conjugate-gradient.pdf" target="_blank" rel="external">http://web.cs.iastate.edu/~cs577/handouts/conjugate-gradient.pdf</a>.</li>
-<li>Overview of conjugate gradient method. <a href="https://www.youtube.com/watch?v=eAYohMUpPMA" target="_blank" rel="external">https://www.youtube.com/watch?v=eAYohMUpPMA</a>.</li>
-</ol>
-]]></content>
-      
-        <categories>
-            
-            <category> 研究 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> 算法 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[算法-字符串模糊匹配-Google kickstart2017 Round A - Problem B]]></title>
       <url>http://vectorliu.com/2017/03/06/algorithm-google-kickstart2017-roundA-problemB/</url>
       <content type="html"><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定两个字符串，判断两个字符串是否匹配。字符串中出现的“*”可以匹配0-4个任意字符。比如如下输入样例：<br><a id="more"></a> </p>
