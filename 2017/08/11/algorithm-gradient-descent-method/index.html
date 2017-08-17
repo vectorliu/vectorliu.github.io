@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Homepage of Vector Liu">
 <meta property="og:description" content="最优化问题描述最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。
 从数值迭代算法的角度考虑，不妨记当前时刻的估计为$\mathbf{x}_k$，">
-<meta property="og:updated_time" content="2017-08-17T13:32:31.000Z">
+<meta property="og:updated_time" content="2017-08-17T13:36:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于梯度的优化方法">
 <meta name="twitter:description" content="最优化问题描述最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。
@@ -146,13 +146,13 @@
                 <div class="tips-box hide">
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
-                        <li>Menu</li>
-                        <li>Tags</li>
+                        <li>菜单</li>
+                        <li>标签</li>
                         
-                        <li>Friends</li>
+                        <li>友情链接</li>
                         
                         
-                        <li>About Me</li>
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -268,7 +268,7 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap"><article id="post-algorithm-gradient-descent-method" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -320,7 +320,7 @@
 <h2 id="一阶算法"><a href="#一阶算法" class="headerlink" title="一阶算法"></a>一阶算法</h2><h3 id="梯度下降算法"><a href="#梯度下降算法" class="headerlink" title="梯度下降算法"></a>梯度下降算法</h3><p>对于任意函数，我们不妨取式$1$中右边的前两项，则可以得到：<br>$$<br>\begin{equation}<br>f(\mathbf{x}_{k+1}) \approx f(\mathbf{x}_k) + \alpha \mathbf{g}_k^T \Delta\mathbf{x}<br>\end{equation} \tag{2}<br>$$<br>由于我们的目标是最小化$f(\mathbf{x})$，因此一个显然的迭代方向选择为$\Delta \mathbf{x} = -\mathbf{g}_k$。根据向量内积，可以发现该方向是函数值下降最快的方向，据此可以得到梯度下降算法（又称最速下降法）如下：<br>        $$\mathbf{x}_{k+1} = \mathbf{x}_k - \alpha_k \mathbf{g}_k$$<br>考虑到上述推导依赖于泰勒展开近似，梯度下降算法在实际使用还需要考虑步长$\alpha$的选择。步长如果选取的过大，则可能会导致函数值变大；如果选取的过小，则可能会导致收敛很慢。实际中通常选择衰减的步长，以符合误差的衰减。或者通过line search对步长进行进一步的优化：<br>$$<br>\alpha^\ast = \underset{\alpha}{\operatorname{argmin}} {f(\mathbf{x}_k - \alpha \mathbf{g}_k)}<br>$$<br>梯度下降算法适用于任何可微分的函数，并且可以求得该类函数的局部极小值。当函数不是处处可微时，通过次梯度下降算法（subgradient descent method）来求解，典型的该类函数是绝对值函数，次梯度下降算法的分析与梯度下降类似。</p>
 <p>在机器学习领域，梯度下降算法的经典实现是随机梯度下降算法（Stochastic Gradient Descent，SGD），SGD通过随机采样一个或者一批（batch）样本，并计算其损失函数（全局损失函数可以拆分为所有样本损失函数之和）对应的梯度，以更新分类／回归模型的参数。在更大规模数据集中，SGD往往比经典的梯度下降收敛更快。</p>
 <h3 id="共轭梯度下降算法"><a href="#共轭梯度下降算法" class="headerlink" title="共轭梯度下降算法"></a>共轭梯度下降算法</h3><p>梯度方向虽然是函数值下降最快的方向，但是在实际使用中会存在以下问题：1）在最优解附近收敛变慢；2）如果函数存在特殊的梯度变化，会出现“之字形”走法（zigzag现象），导致收敛效率低。这类问题出现的原因在于在收敛过程中，梯度序列${\mathbf{g}_0, …, \mathbf{g}_{n-1}}$不是完全线性独立的，导致搜索的过程可能出现“undo”和“redo”现象，即单一方向的搜索没有走到尽头。假设仍然采用一阶算法的基本形式，在如下更新率下：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_{k} + \alpha_k \mathbf{d}_k<br>$$<br>为确保单一方向搜索到了尽头，则需要满足如下约束条件：<br>$$<br>\mathbf{g}_{k+1}^T \mathbf{d}_k = 0 \tag{3}<br>$$<br>根据上式可以利用line search最小化$f(\mathbf{x}_{k} + \alpha \mathbf{d}_k)$得到最优的步长，本质上该步长代表了误差$\mathbf{e}_k = \mathbf{x}^\ast - \mathbf{x}_k$在当前方向$\mathbf{d}_k$上的投影长度。如果可以构建一组线性独立的基${\mathbf{d}_0, …, \mathbf{d}_{n-1}}$，将误差$\mathbf{e}_k$投影到每个方向上，则可以避免“undo”和“redo”现象。以上分析表述了共轭梯度下降算法（Conjugate Gradient Descent，CGD）的基本思想。</p>
-<p>循一般套路，本文先针对特殊的二次规划问题利用CGD给出确定优化算法，然后将其推广到一般的函数最小化问题。考虑如下标准无约束二次规划问题：<br>$$<br>\min\limits_{\mathbf{x} \in \mathbb{R}^n}{f(\mathbf{x}) = \frac{1}{2}\mathbf{x}^T \mathbf{H} \mathbf{x} - \mathbf{b}^T \mathbf{x}}<br>$$<br>随机选定初始值$\mathbf{x}_0$，并计算当前梯度$\mathbf{g}_0 = \mathbf{H}\mathbf{x}_0 - \mathbf{b}$，令<br>$$<br>\mathbf{d}_0 = -\mathbf{g}_0<br>$$<br>可以得到$\mathbf{x}_1 = \mathbf{x}_0 + \alpha_0 \mathbf{d}_0$。根据梯度表达式和更新公式可得$\mathbf{g}_{1} = \mathbf{g}_{0} + \alpha_0 \mathbf{H} \mathbf{d}_0$<br>根据式(3)，可以计算得到：<br>$$<br>\alpha_0 = -\frac{\mathbf{g}_0^T \mathbf{d}_0}{\mathbf{d}_0^T\mathbf{H}\mathbf{d}_0} \tag{4}<br>$$<br>至此我们得到了新的梯度向量$\mathbf{g}_1$，根据<a href="https://en.wikipedia.org/wiki/Gram–Schmidt_process" target="_blank" rel="external">Gram-Schmidt正交化方法</a>的思想，我们希望迭代构造一组正交的基底，便于对误差进行分解。如果按照一般的正交化套路构造了一组基底${\mathbf{d}_0, …, \mathbf{d}_{n-1}}$，则可以得到在$\mathbf{d}_k$上误差的投影长度为：$\alpha_k = \frac{\mathbf{d}_k^T \mathbf{e}_k}{\mathbf{d}_k^T \mathbf{e}_k}$。该种构造方法下，计算每个方向上的投影长度将需要知道$\mathbf{e}_k = \mathbf{x}^\ast - \mathbf{x}_k$的信息，构成了一个先有鸡还是先有蛋的问题。幸运的是，虽然不知道$\mathbf{e}_k$但是很容易得到：<br>$$<br>\mathbf{H} \mathbf{e}_k = \mathbf{H}(\mathbf{x}^\ast - \mathbf{x}_k) = \mathbf{b} - \mathbf{H}\mathbf{x}_k = -\mathbf{g}_k<br>$$<br>上式启发我们使用一种新的“正交”基底，以使得误差可以通过当前梯度来反映。具体地，通过构造一组$H$-共轭（H-Conjugate，H矩阵对称正定）的基底，即：<br>$$<br>\mathbf{d}_i^T \mathbf{H} \mathbf{d}_j = 0, \forall i,j = 0, …, n-1, i \neq j<br>$$<br>在该组基底下，我们接着式(4)构造新的搜索方向$\mathbf{d}_1$，根据$\mathbf{d}_1^T \mathbf{H} \mathbf{d}_0 = 0$，并结合$\mathbf{d}_1 = -\mathbf{g}_1 + \beta_0 \mathbf{d}_0$，可以解出：<br>$$<br>\beta_0 = \frac{\mathbf{g}_1^T\mathbf{H}\mathbf{d}_0}{\mathbf{d}_0^T\mathbf{H}\mathbf{d}_0} = \frac{\mathbf{g}_1^T \mathbf{g}_1}{\mathbf{g}_0^T \mathbf{g}_0}<br>$$<br>上述算法迭代进行下去即可得到整个CGD算法，总结针对二次规划的CGD算法，可以发现如下事实：</p>
+<p>循一般套路，本文先针对特殊的二次规划问题利用CGD给出确定优化算法，然后将其推广到一般的函数最小化问题。考虑如下标准无约束二次规划问题：<br>$$<br>\min\limits_{\mathbf{x} \in \mathbb{R}^n}{f(\mathbf{x}) = \frac{1}{2}\mathbf{x}^T \mathbf{H} \mathbf{x} - \mathbf{b}^T \mathbf{x}}<br>$$<br>随机选定初始值$\mathbf{x}_0$，并计算当前梯度$\mathbf{g}_0 = \mathbf{H}\mathbf{x}_0 - \mathbf{b}$，令<br>$$<br>\mathbf{d}_0 = -\mathbf{g}_0<br>$$<br>可以得到$\mathbf{x}_1 = \mathbf{x}_0 + \alpha_0 \mathbf{d}_0$。根据梯度表达式和更新公式可得$\mathbf{g}_{1} = \mathbf{g}_{0} + \alpha_0 \mathbf{H} \mathbf{d}_0$。根据式(3)，可以计算得到：<br>$$<br>\alpha_0 = -\frac{\mathbf{g}_0^T \mathbf{d}_0}{\mathbf{d}_0^T\mathbf{H}\mathbf{d}_0} \tag{4}<br>$$<br>至此我们得到了新的梯度向量$\mathbf{g}_1$，根据<a href="https://en.wikipedia.org/wiki/Gram–Schmidt_process" target="_blank" rel="external">Gram-Schmidt正交化方法</a>的思想，我们希望迭代构造一组正交的基底，便于对误差进行分解。如果按照一般的正交化套路构造了一组基底${\mathbf{d}_0, …, \mathbf{d}_{n-1}}$，则可以得到在$\mathbf{d}_k$上误差的投影长度为：$\alpha_k = \frac{\mathbf{d}_k^T \mathbf{e}_k}{\mathbf{d}_k^T \mathbf{e}_k}$。该种构造方法下，计算每个方向上的投影长度将需要知道$\mathbf{e}_k = \mathbf{x}^\ast - \mathbf{x}_k$的信息，构成了一个先有鸡还是先有蛋的问题。幸运的是，虽然不知道$\mathbf{e}_k$但是很容易得到：<br>$$<br>\mathbf{H} \mathbf{e}_k = \mathbf{H}(\mathbf{x}^\ast - \mathbf{x}_k) = \mathbf{b} - \mathbf{H}\mathbf{x}_k = -\mathbf{g}_k<br>$$<br>上式启发我们使用一种新的“正交”基底，以使得误差可以通过当前梯度来反映。具体地，通过构造一组$H$-共轭（H-Conjugate，H矩阵对称正定）的基底，即：<br>$$<br>\mathbf{d}_i^T \mathbf{H} \mathbf{d}_j = 0, \forall i,j = 0, …, n-1, i \neq j<br>$$<br>在该组基底下，我们接着式(4)构造新的搜索方向$\mathbf{d}_1$，根据$\mathbf{d}_1^T \mathbf{H} \mathbf{d}_0 = 0$，并结合$\mathbf{d}_1 = -\mathbf{g}_1 + \beta_0 \mathbf{d}_0$，可以解出：<br>$$<br>\beta_0 = \frac{\mathbf{g}_1^T\mathbf{H}\mathbf{d}_0}{\mathbf{d}_0^T\mathbf{H}\mathbf{d}_0} = \frac{\mathbf{g}_1^T \mathbf{g}_1}{\mathbf{g}_0^T \mathbf{g}_0}<br>$$<br>上述算法迭代进行下去即可得到整个CGD算法，总结针对二次规划的CGD算法，可以发现如下事实：</p>
 <ol>
 <li>存在如下正交以及$H$-共轭关系：$$\mathbf{g}_i^T\mathbf{g}_j = 0, \mathbf{d}_i^T \mathbf{H} \mathbf{d}_j = 0, \forall i,j = 0, …, n-1, i \neq j$$</li>
 <li>对于正定二次规划问题，CGD可以在n步迭代后得到最优解，即$\mathbf{x}_n = \mathbf{x}^\ast$；</li>
@@ -358,17 +358,17 @@
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2017/08/11/algorithm-gradient-descent-method/">基于梯度的优化方法</a></p>
-        <p><span>Author:</span><a href="/" title="Back to Homepage">Vector Liu</a></p>
-        <p><span>Created:</span>2017-08-11, 14:30:30</p>
-        <p><span>Updated:</span>2017-08-17, 21:32:31</p>
+        <p><span>本文标题:</span><a href="/2017/08/11/algorithm-gradient-descent-method/">基于梯度的优化方法</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Vector Liu</a></p>
+        <p><span>发布时间:</span>2017-08-11, 14:30:30</p>
+        <p><span>最后更新:</span>2017-08-17, 21:36:10</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2017/08/11/algorithm-gradient-descent-method/" title="基于梯度的优化方法">http://vectorliu.com/2017/08/11/algorithm-gradient-descent-method/</a>
-            <span class="copy-path" data-clipboard-text="From http://vectorliu.com/2017/08/11/algorithm-gradient-descent-method/　　By Vector Liu" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/08/11/algorithm-gradient-descent-method/" title="基于梯度的优化方法">http://vectorliu.com/2017/08/11/algorithm-gradient-descent-method/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://vectorliu.com/2017/08/11/algorithm-gradient-descent-method/　　作者: Vector Liu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
-            <span>License:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"CC BY-NC-SA 4.0"</a> Keep Link &amp; Author if Distribute.
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -389,7 +389,7 @@
 </article>
 
     <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
+        <strong class="toc-title">文章目录</strong>
         
             <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#最优化问题描述"><span class="toc-number">1.</span> <span class="toc-text">最优化问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一阶算法"><span class="toc-number">2.</span> <span class="toc-text">一阶算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#梯度下降算法"><span class="toc-number">2.1.</span> <span class="toc-text">梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共轭梯度下降算法"><span class="toc-number">2.2.</span> <span class="toc-text">共轭梯度下降算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二阶算法"><span class="toc-number">3.</span> <span class="toc-text">二阶算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#牛顿法"><span class="toc-number">3.1.</span> <span class="toc-text">牛顿法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拟牛顿法：DFP算法"><span class="toc-number">3.2.</span> <span class="toc-text">拟牛顿法：DFP算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拟牛顿法：BFGS算法"><span class="toc-number">3.3.</span> <span class="toc-text">拟牛顿法：BFGS算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">4.</span> <span class="toc-text">参考文献</span></a></li></ol>
         
@@ -405,10 +405,10 @@
         }
     </style>
 
-    <input type="button" id="tocButton" value="Hide"  title="Show or Hide Table of Contents">
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
     <script>
-        yiliaConfig.toc = ["Hide", "Show", !!"false"];
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
     </script>
 
 
@@ -469,13 +469,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="Back to Homepage"><i class="fa fa-home"></i></a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
-        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/03/06/algorithm-google-kickstart2017-roundA-problemB/" title="Next: 算法-字符串模糊匹配-Google kickstart2017 Round A - Problem B">
+            <a href="/2017/03/06/algorithm-google-kickstart2017-roundA-problemB/" title="下一篇: 算法-字符串模糊匹配-Google kickstart2017 Round A - Problem B">
                 <i class="fa fa-angle-right"></i>
             </a>
         
@@ -498,14 +498,14 @@
                 2017 Vector Liu
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
             </div>
         </div>
         
             <div class="visit">
                 
                     <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" title="Site Visitors"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
                 
@@ -514,7 +514,7 @@
                 
                 
                     <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit"  title="Page Hits"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
                         </span>
                     </span>
                 
@@ -581,9 +581,9 @@ MathJax.Hub.Queue(function() {
 
 
 <div class="scroll" id="scroll">
-    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
 <script>
     // Open in New Window
