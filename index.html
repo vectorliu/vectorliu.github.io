@@ -273,6 +273,162 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-algorithm-gradient-descent-method" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/11/algorithm-gradient-descent-method/" class="article-date">
+      <time datetime="2017-08-11T06:30:30.000Z" itemprop="datePublished">2017-08-11</time>
+</a>
+
+ 
+    <a href="/2017/08/11/algorithm-gradient-descent-method/#comments" title="Comments">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2017/08/11/algorithm-gradient-descent-method/"></span>
+        
+    </a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/11/algorithm-gradient-descent-method/">一阶优化方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="最优化问题描述"><a href="#最优化问题描述" class="headerlink" title="最优化问题描述"></a>最优化问题描述</h2><p>最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。</p>
+<p>从数值迭代算法的角度考虑，不妨记当前时刻的估计为$\mathbf{x}_k$，下一时刻的估计记为$\mathbf{x}_{k+1}$，优化算法的一般形式记为：<br>$$\mathbf{x}_{k+1} = \mathbf{x}_k + \alpha \Delta \mathbf{x}$$<br>其中$\alpha &gt; 0$是步长，$\Delta \mathbf{x}$为迭代方向，各种优化方法的区别在于怎么选定迭代方向以及步长。根据原理不同，可将其总结为两大类：即一阶算法和二阶算法。一阶算法主要是梯度下降相关算法，二阶算法主要是牛顿法相关算法。<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/研究/">研究</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/08/11/algorithm-gradient-descent-method/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-algorithm-newton-method" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/11/algorithm-newton-method/" class="article-date">
+      <time datetime="2017-08-11T06:30:30.000Z" itemprop="datePublished">2017-08-11</time>
+</a>
+
+ 
+    <a href="/2017/08/11/algorithm-newton-method/#comments" title="Comments">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span class="count-comment"></span>
+        
+        
+            <span class="disqus-comment-count" data-disqus-identifier="2017/08/11/algorithm-newton-method/"></span>
+        
+    </a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/11/algorithm-newton-method/">一阶优化方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="最优化问题描述"><a href="#最优化问题描述" class="headerlink" title="最优化问题描述"></a>最优化问题描述</h2><p>最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。</p>
+<p>从数值迭代算法的角度考虑，不妨记当前时刻的估计为$\mathbf{x}_k$，下一时刻的估计记为$\mathbf{x}_{k+1}$，优化算法的一般形式记为：<br>$$\mathbf{x}_{k+1} = \mathbf{x}_k + \alpha \Delta \mathbf{x}$$<br>其中$\alpha &gt; 0$是步长，$\Delta \mathbf{x}$为迭代方向，各种优化方法的区别在于怎么选定迭代方向以及步长。根据原理不同，可将其总结为两大类：即一阶算法和二阶算法。考虑到篇幅问题，本文主要介绍各种一阶梯度下降算法，二阶算法则放在另一篇博文中介绍。<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/研究/">研究</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/08/11/algorithm-newton-method/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-algorithm-google-kickstart2017-roundA-problemB" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
