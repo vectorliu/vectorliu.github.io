@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Homepage of Vector Liu">
 <meta property="og:description" content="最优化问题描述最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。
 从数值迭代算法的角度考虑，不妨记当前时刻的估计为$\mathbf{x}_k$，">
-<meta property="og:updated_time" content="2017-08-17T14:07:51.000Z">
+<meta property="og:updated_time" content="2017-08-18T01:57:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于梯度的优化方法">
 <meta name="twitter:description" content="最优化问题描述最优化问题广泛存在于学术研究和工程实际中。一个典型的最优化问题通常包括自变量、优化目标函数以及约束条件等等。机器学习作为一种热门的工程应用，通常包括模型、目标函数以及优化方法三个部分。一般而言，优化通常使用较为成熟的方法。本文重点介绍一些经典的优化算法，当目标函数是凸函数时，这些方法往往能得到全局最优解。
@@ -342,7 +342,7 @@
 </ol>
 <p>Fletcher-Reeves算法通过嵌套实现，每一个外层循环的第一步本质上都是梯度下降算法，剩余的$n-1$步可以保证函数值不会增加，因此其收敛可以很容易通过梯度下降算法证明。CGD算法仅仅使用了一阶梯度信息，但是大大加快了收敛速度，是针对任意函数的一个通用性强的高效优化算法。</p>
 <h2 id="二阶算法"><a href="#二阶算法" class="headerlink" title="二阶算法"></a>二阶算法</h2><p>二阶算法利用二阶展开来近似任意函数，即取式（1）右边的前三项，可得：<br>$$<br>\begin{equation}<br>f(\mathbf{x}_{k+1}) \approx f(\mathbf{x}_k) + \alpha \mathbf{g}_k^T \Delta\mathbf{x} + \frac{\alpha^2}{2} \Delta\mathbf{x}^T \mathbf{H}_k\Delta\mathbf{x}<br>\end{equation} \tag{4}<br>$$</p>
-<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>将式（4）看成一个以$\alpha\Delta\mathbf{x}$为参数的函数，最小化该函数等价于求梯度为零的点，即：<br>$$<br>\mathbf{H}_k (\alpha\Delta\mathbf{x}) + \mathbf{g}_k = 0<br>$$<br>从而可以得到下一步迭代的最优增量为：$\alpha\Delta\mathbf{x} = -\mathbf{H}_k^T \mathbf{g}_k$。因此牛顿法可以总结为以下表达式：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_k - \mathbf{H}_k^T \mathbf{g}_k<br>$$<br>从上式可以看出，牛顿法无需单独计算步长$\alpha_k$（也可以通过line search搜索最优的步长，得到一种新的改进的牛顿法），但是需要同时使用目标函数在当前点的一阶和二阶导数的信息，使得单步迭代的计算复杂度提升为$\mathcal{O}(n^2)$。进一步地，牛顿法还需要计算Hessian矩阵的逆，使得复杂度进一步提升为$\mathcal{O}(n^3)$。由于使用了二阶导数的信息，牛顿法可以很快一步找到二次规划问题的最优解。对于可以用二阶近似的函数，牛顿法也可以很快地找到最优解的近似。为了克服牛顿法需要计算Hessian矩阵逆的麻烦，出现了各种各样的拟牛顿法（Quasi-Newton method），不同的拟牛顿法的区别在于对Hessian矩阵及其逆的不同计算方法。在下面的介绍中，我们记Hessian矩阵$\mathbf{H}_k$的近似逆矩阵为$\mathbf{V}_k$。</p>
+<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>将式（4）看成一个以$\alpha\Delta\mathbf{x}$为参数的函数，最小化该函数等价于求梯度为零的点，即：<br>$$<br>\mathbf{H}_k (\alpha\Delta\mathbf{x}) + \mathbf{g}_k = 0<br>$$<br>从而可以得到下一步迭代的最优增量为：$\alpha\Delta\mathbf{x} = -\mathbf{H}_k^{-1} \mathbf{g}_k$。因此牛顿法可以总结为以下表达式：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_k - \mathbf{H}_k^{-1} \mathbf{g}_k<br>$$<br>从上式可以看出，牛顿法无需单独计算步长$\alpha_k$（也可以通过line search搜索最优的步长，得到一种新的改进的牛顿法），但是需要同时使用目标函数在当前点的一阶和二阶导数的信息，使得单步迭代的计算复杂度提升为$\mathcal{O}(n^2)$。进一步地，牛顿法还需要计算Hessian矩阵的逆，使得复杂度进一步提升为$\mathcal{O}(n^3)$。由于使用了二阶导数的信息，牛顿法可以很快一步找到二次规划问题的最优解。对于可以用二阶近似的函数，牛顿法也可以很快地找到最优解的近似。为了克服牛顿法需要计算Hessian矩阵逆的麻烦，出现了各种各样的拟牛顿法（Quasi-Newton method），不同的拟牛顿法的区别在于对Hessian矩阵及其逆的不同计算方法。在下面的介绍中，我们记Hessian矩阵$\mathbf{H}_k$的近似逆矩阵为$\mathbf{V}_k$。</p>
 <h3 id="拟牛顿法：DFP算法"><a href="#拟牛顿法：DFP算法" class="headerlink" title="拟牛顿法：DFP算法"></a>拟牛顿法：DFP算法</h3><p>DFP算法的全称是Davidon–Fletcher–Powell算法，是史上第一个拟牛顿法。DFP最早由Davidon于1959年提出，经由Fletcher和Powell于1963年改进完善得到。DFP的核心思想是迭代估计$\mathbf{V}_k$。对函数的梯度在当前点进行一阶展开，则有：<br>$$<br>\mathbf{H}_k \mathbf{\Delta \mathbf{x}} = \mathbf{g}_{k+1} - \mathbf{g}_k<br>$$<br>待更新。。。</p>
 <h3 id="拟牛顿法：BFGS算法"><a href="#拟牛顿法：BFGS算法" class="headerlink" title="拟牛顿法：BFGS算法"></a>拟牛顿法：BFGS算法</h3><p>BFGS算法的全称是Broyden–Fletcher–Goldfarb–Shanno算法，是当前使用的主流优化算法，可以通过MATLAB的fminunc函数直接调用。</p>
 <p>待更新。。。</p>
@@ -361,7 +361,7 @@
         <p><span>Title:</span><a href="/2017/08/11/algorithm-gradient-descent-method/">基于梯度的优化方法</a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">Vector Liu</a></p>
         <p><span>Created:</span>2017-08-11, 14:30:30</p>
-        <p><span>Updated:</span>2017-08-17, 22:07:51</p>
+        <p><span>Updated:</span>2017-08-18, 09:57:20</p>
         <p>
             <span>Full URL:</span><a class="post-url" href="/2017/08/11/algorithm-gradient-descent-method/" title="基于梯度的优化方法">http://vectorliu.com/2017/08/11/algorithm-gradient-descent-method/</a>
             <span class="copy-path" data-clipboard-text="From http://vectorliu.com/2017/08/11/algorithm-gradient-descent-method/　　By Vector Liu" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
