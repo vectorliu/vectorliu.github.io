@@ -19,6 +19,7 @@
 <li>与GD相比，针对二次规划的CGD算法也只需要使用一阶梯度信息，增加的计算量不大，但是大大加速了GD算法的收敛，达到了确定步数的收敛。</li>
 </ol>
 <p>考虑到对任意函数进行二阶展开（参见式（1）），可以将CGD推广到任意函数最小化问题，得到如下Fletcher-Reeves算法：</p>
+<blockquote>
 <ol>
 <li>随机选择初始点$\mathbf{x}_0$；</li>
 <li>计算初始点梯度向量：$\mathbf{d}_0 \leftarrow -\mathbf{g}_0$；</li>
@@ -32,12 +33,50 @@
 <li>$\mathbf{x}_0 \leftarrow \mathbf{x}_n$；</li>
 <li>检查终止条件，如不满足，则跳到步骤2。</li>
 </ol>
+</blockquote>
 <p>Fletcher-Reeves算法通过嵌套实现，每一个外层循环的第一步本质上都是梯度下降算法，剩余的$n-1$步可以保证函数值不会增加，因此其收敛可以很容易通过梯度下降算法证明。CGD算法仅仅使用了一阶梯度信息，但是大大加快了收敛速度，是针对任意函数的一个通用性强的高效优化算法。</p>
 <h2 id="二阶算法"><a href="#二阶算法" class="headerlink" title="二阶算法"></a>二阶算法</h2><p>二阶算法利用二阶展开来近似任意函数，即取式（1）右边的前三项，可得：<br>$$<br>\begin{equation}<br>f(\mathbf{x}_{k+1}) \approx f(\mathbf{x}_k) + \alpha \mathbf{g}_k^T \Delta\mathbf{x} + \frac{\alpha^2}{2} \Delta\mathbf{x}^T \mathbf{H}_k\Delta\mathbf{x}<br>\end{equation} \tag{4}<br>$$</p>
-<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>将式（4）看成一个以$\alpha\Delta\mathbf{x}$为参数的函数，最小化该函数等价于求梯度为零的点，即：<br>$$<br>\mathbf{H}_k (\alpha\Delta\mathbf{x}) + \mathbf{g}_k = 0<br>$$<br>从而可以得到下一步迭代的最优增量为：$\alpha\Delta\mathbf{x} = -\mathbf{H}_k^{-1} \mathbf{g}_k$。因此牛顿法可以总结为以下表达式：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_k - \mathbf{H}_k^{-1} \mathbf{g}_k<br>$$<br>从上式可以看出，牛顿法无需单独计算步长$\alpha_k$（也可以通过line search搜索最优的步长，得到一种新的改进的牛顿法），但是需要同时使用目标函数在当前点的一阶和二阶导数的信息，使得单步迭代的计算复杂度提升为$\mathcal{O}(n^2)$。进一步地，牛顿法还需要计算Hessian矩阵的逆，使得复杂度进一步提升为$\mathcal{O}(n^3)$。由于使用了二阶导数的信息，牛顿法可以很快一步找到二次规划问题的最优解。对于可以用二阶近似的函数，牛顿法也可以很快地找到最优解的近似。为了克服牛顿法需要计算Hessian矩阵逆的麻烦，出现了各种各样的拟牛顿法（Quasi-Newton method），不同的拟牛顿法的区别在于对Hessian矩阵及其逆的不同计算方法。在下面的介绍中，我们记Hessian矩阵$\mathbf{H}_k$的近似逆矩阵为$\mathbf{V}_k$。</p>
-<h3 id="拟牛顿法：DFP算法"><a href="#拟牛顿法：DFP算法" class="headerlink" title="拟牛顿法：DFP算法"></a>拟牛顿法：DFP算法</h3><p>DFP算法的全称是Davidon–Fletcher–Powell算法，是史上第一个拟牛顿法。DFP最早由Davidon于1959年提出，经由Fletcher和Powell于1963年改进完善得到。DFP的核心思想是迭代估计$\mathbf{V}_k$。对函数的梯度在当前点进行一阶展开，则有：<br>$$<br>\mathbf{H}_k \mathbf{\Delta \mathbf{x}} = \mathbf{g}_{k+1} - \mathbf{g}_k<br>$$<br>待更新。。。</p>
-<h3 id="拟牛顿法：BFGS算法"><a href="#拟牛顿法：BFGS算法" class="headerlink" title="拟牛顿法：BFGS算法"></a>拟牛顿法：BFGS算法</h3><p>BFGS算法的全称是Broyden–Fletcher–Goldfarb–Shanno算法，是当前使用的主流优化算法，可以通过MATLAB的fminunc函数直接调用。</p>
-<p>待更新。。。</p>
+<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>将式（4）看成一个以$\alpha\Delta\mathbf{x}$为参数的函数，最小化该函数等价于求梯度为零的点，即：<br>$$<br>\mathbf{H}_k (\alpha\Delta\mathbf{x}) + \mathbf{g}_k = 0<br>$$<br>从而可以得到下一步迭代的最优增量为：$\alpha\Delta\mathbf{x} = -\mathbf{H}_k^{-1} \mathbf{g}_k$。因此牛顿法可以总结为以下表达式：<br>$$<br>\mathbf{x}_{k+1} = \mathbf{x}_k - \mathbf{H}_k^{-1} \mathbf{g}_k<br>$$<br>从上式可以看出，牛顿法无需单独计算步长$\alpha_k$（也可以通过line search搜索最优的步长，得到一种改进的牛顿法），但是需要同时使用目标函数在当前点的一阶和二阶导数的信息，使得单步迭代的计算复杂度提升为$\mathcal{O}(n^2)$。进一步地，牛顿法还需要计算Hessian矩阵的逆，使得复杂度进一步提升为$\mathcal{O}(n^3)$。由于使用了二阶导数的信息，牛顿法可以一步得到二次规划问题的最优解。对于可以用二阶近似的函数，牛顿法也可以很快地找到最优解的近似。为了克服牛顿法需要计算Hessian矩阵逆的麻烦，出现了各种各样的拟牛顿法（Quasi-Newton method），不同的拟牛顿法的区别在于对Hessian矩阵及其逆的不同计算方法。在下面的介绍中，我们记Hessian矩阵$\mathbf{H}_k$的近似逆矩阵为$\mathbf{V}_k$。</p>
+<h3 id="拟牛顿法：SR1算法"><a href="#拟牛顿法：SR1算法" class="headerlink" title="拟牛顿法：SR1算法"></a>拟牛顿法：SR1算法</h3><p>SR1是Symmetric Rank One correction的简写。拟牛顿法的核心在于迭代估计Hessian矩阵$\mathbf{H}_k$或其逆矩阵。对函数的梯度在当前点进行一阶展开，则有：<br>$$<br>\mathbf{H}_k (\mathbf{x}_{k+1} - \mathbf{x}_{k}) = \mathbf{g}_{k+1} - \mathbf{g}_k<br>$$<br>便于分析，记$\mathbf{p}_k = \mathbf{x}_{k+1} - \mathbf{x}_{k}$，$\mathbf{q}_k = \mathbf{g}_{k+1} - \mathbf{g}_{k}$，由于$\mathbf{p}_k$、$\mathbf{q}_k$在选定下一迭代点后都可以得到，因此上式给出了关于未知量$\mathbf{H}_k$的一个方程。如果直接采用逆矩阵$\mathbf{V}_k$，则上式为：<br>$$<br>\mathbf{V}_k \mathbf{q}_{k} = \mathbf{p}_{k} \tag{5}<br>$$<br>同样地，我们<strong><em>以二次规划为例</em></strong>分析算法流程，再将其推广到一般函数。对于二次函数，Hessian矩阵为定值，因此在$k$次迭代后，有如下表达式：<br>$$<br>\mathbf{V}_{k+1} [\mathbf{q}_{0}, \mathbf{q}_{1}, …, \mathbf{q}_{k}] = [\mathbf{p}_{0}, \mathbf{p}_{1}, …, \mathbf{p}_{k}] \tag{6}<br>$$<br>可以发现，从$\mathbf{V}_{k}$到$\mathbf{V}_{k+1}$，对于估计$\mathbf{V}$而言，只是增加了一组信息$[\mathbf{q}_{k}, \mathbf{p}_{k}]$，因此，一种自然的迭代思路是给当前估计增添一个秩为1的矩阵，SR1的迭代如下，<strong><em>SR1可以保证矩阵始终是对称</em></strong>的：<br>$$<br>\mathbf{V}_{k+1} = \mathbf{V}_k + a_k \mathbf{z}_k \mathbf{z}_k^T, \quad a_k \in \mathbb{R}, \quad \mathbf{z}_k \in \mathbb{R}^n<br>$$<br>利用待定系数法即可得到$a_k$和$\mathbf{z}_k$，最终结果如下：<br>$$<br>\mathbf{V}_{k+1} = \mathbf{V}_k + \frac{(\mathbf{p}_k - \mathbf{H}_k \mathbf{q}_k)(\mathbf{p}_k - \mathbf{H}_k \mathbf{q}_k)^T}{\mathbf{q}_k^T (\mathbf{p}_k - \mathbf{H}_k \mathbf{q}_k)} \tag{7}<br>$$<br>据此可以得到SR1算法的流程如下：</p>
+<blockquote>
+<ol>
+<li>随机选择初始点$\mathbf{x}_0$和初始Hessian逆矩阵估计$\mathbf{V}_0$；</li>
+<li>计算当前点梯度向量：$\mathbf{g}_0$；</li>
+<li>通过line search寻找最优的步长$\alpha$；</li>
+<li>更新得到$\mathbf{x}_{k+1}$以及梯度，并计算$\mathbf{p}_k$和$\mathbf{q}_k$；</li>
+<li>根据式（7）计算更新$\mathbf{V}_{k}$；</li>
+<li>检查终止条件，如不满足，则跳到步骤3。</li>
+</ol>
+</blockquote>
+<p>SR1算法可以保证近似的Hessian逆矩阵始终是对称的，但无法保证矩阵是正定的（正定矩阵可以保证每一步迭代函数值都是减小的）。同时，迭代计算过程中可能会存在分母为零的情况，导致数值计算失效。</p>
+<h3 id="拟牛顿法：DFP算法"><a href="#拟牛顿法：DFP算法" class="headerlink" title="拟牛顿法：DFP算法"></a>拟牛顿法：DFP算法</h3><p>DFP算法的全称是Davidon–Fletcher–Powell算法，是史上第一个拟牛顿法。DFP最早由Davidon于1959年提出，经由Fletcher和Powell于1963年改进完善得到。DFP的核心思想也是迭代估计$\mathbf{V}_k$。不同于SR1算法，DFP在确保$\mathbf{V}_k$对称的同时，同时保证矩阵是正定的，使得函数始终递减。类似于SR1，DFP通过添加秩2的矩阵迭代修改$\mathbf{V}_k$（通过加上两个秩为1的矩阵实现），通过待定系数确定迭代公式。此处省略具体的推导过程，给出DFP算法的流程如下：</p>
+<blockquote>
+<ol>
+<li>初始化选择$\mathbf{V}_0$为一个对称正定矩阵，随机选择初始点$\mathbf{x}_0$并计算梯度$\mathbf{g}_0$，$k = 0$；</li>
+<li>设置搜索方向为$\mathbf{d}_k = -\mathbf{V}_k \mathbf{g}_k$；</li>
+<li>通过line search搜索最优的步长$\alpha$；</li>
+<li>得到$\mathbf{x}_{k+1}$，计算当前梯度和$\mathbf{p}_k$、$\mathbf{q}_k$；</li>
+<li>更新$\mathbf{V}_{k+1} = \mathbf{V}_k + \frac{\mathbf{p}_k \mathbf{p}_k^T}{\mathbf{p}_k^T \mathbf{q}_k} - \frac{\mathbf{V}_k \mathbf{q}_k \mathbf{q}_k^T \mathbf{V}_k}{\mathbf{q}_k^T \mathbf{V}_k \mathbf{q}_k}$；</li>
+<li>设置$k = k + 1$，跳到步骤2。</li>
+</ol>
+</blockquote>
+<h3 id="拟牛顿法：BFGS算法"><a href="#拟牛顿法：BFGS算法" class="headerlink" title="拟牛顿法：BFGS算法"></a>拟牛顿法：BFGS算法</h3><p>BFGS算法的全称是Broyden–Fletcher–Goldfarb–Shanno算法，是当前使用的主流优化算法，可以通过MATLAB的fminunc函数直接调用。BFGS算法可以看成是DFP的对偶实现，着眼于估计Hessian矩阵而不是其逆矩阵，再利用Sherman-Morrison矩阵求逆公式计算Hessian矩阵的逆。为保持本文的完整性，在此给出该逆矩阵公式。</p>
+<blockquote>
+<p><strong><em>Sherman-Morrison矩阵求逆公式</em></strong><br>假定方阵$\mathbf{A}$和向量$\mathbf{\mu}$、$\mathbf{\nu}$满足$1 + \mathbf{\nu}^T \mathbf{A}^{-1} \mathbf{\mu} \neq 0$，则：<br>$$<br>(\mathbf{A} + \mathbf{\mu}\mathbf{\nu}^T)^{-1} = \mathbf{A}^{-1} - \frac{\mathbf{A}^{-1} \mathbf{\mu} \mathbf{\nu} \mathbf{A}^{-1}}{1 + \mathbf{\nu}^T \mathbf{A}^{-1} \mathbf{\mu}}<br>$$</p>
+</blockquote>
+<p>考虑到$\mathbf{H}_k$和$\mathbf{V}_k$互为逆矩阵，根据DFP算法的对偶可以得到$\mathbf{H}_k$的更新满足如下表达式：<br>$$<br>\mathbf{H}_{k+1} = \mathbf{H}_k + \frac{\mathbf{q}_k \mathbf{q}_k^T}{\mathbf{q}_k^T \mathbf{p}_k} - \frac{\mathbf{H}_k \mathbf{p}_k \mathbf{p}_k^T \mathbf{H}_k}{\mathbf{p}_k^T \mathbf{H}_k \mathbf{p}_k}<br>$$</p>
+<p>利用Sherman-Morrison公式两次，对上式求逆，即可得到一种新的$\mathbf{V}_k$更新公式。最终可以得到BFGS算法如下：</p>
+<blockquote>
+<ol>
+<li>初始化选择$\mathbf{V}_0$为一个对称正定矩阵，随机选择初始点$\mathbf{x}_0$并计算梯度$\mathbf{g}_0$，$k = 0$；</li>
+<li>设置搜索方向为$\mathbf{d}_k = -\mathbf{V}_k \mathbf{g}_k$；</li>
+<li>通过line search搜索最优的步长$\alpha$；</li>
+<li>得到$\mathbf{x}_{k+1}$，计算当前梯度和$\mathbf{p}_k$、$\mathbf{q}_k$；</li>
+<li>更新$\mathbf{V}_{k+1} = \mathbf{V}_k + (1 + \frac{\mathbf{q}_k^T \mathbf{V}_k \mathbf{q}_k}{\mathbf{p}_k^T \mathbf{q}_k})\frac{\mathbf{p}_k \mathbf{p}_k^T}{\mathbf{p}_k^T \mathbf{q}_k} - \frac{\mathbf{p}_k \mathbf{q}_k^T \mathbf{V}_k +  \mathbf{V}_k \mathbf{q}_k \mathbf{p}_k^T}{\mathbf{p}_k^T \mathbf{q}_k}$；</li>
+<li>设置$k = k + 1$，跳到步骤2。</li>
+</ol>
+</blockquote>
+<p>BFGS算法的复杂度几乎与DFP相似，但是在实际使用中，BFGS比DFP的运行性能要好。同时，BFGS和DFP的下降方向都满足“共轭”梯度的性质（参见共轭梯度下降的推导）。BGFS的应用另一个拓展版本是L-BFGS，主要用于节省大规模计算时的内存开销。由于篇幅限制，此处不再展开。</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li>Conjugate Gradient Method. <a href="http://web.cs.iastate.edu/~cs577/handouts/conjugate-gradient.pdf" target="_blank" rel="external">http://web.cs.iastate.edu/~cs577/handouts/conjugate-gradient.pdf</a>.</li>
 <li>Overview of conjugate gradient method. <a href="https://www.youtube.com/watch?v=eAYohMUpPMA" target="_blank" rel="external">https://www.youtube.com/watch?v=eAYohMUpPMA</a>.</li>
